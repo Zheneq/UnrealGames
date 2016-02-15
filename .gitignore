@@ -291,15 +291,18 @@ Packaged/
 Plugins/
 Saved/
 
-Content/StarterContent
-
 # Content Source Files
 # =========================
+
 *.fbx
 *.max
 *.kra
 *.psd
 *.png
 
+# Other
+# =========================
 
+Content/StarterContent
 ThirdParty/OpenCV/Libraries
+UnrealGamesStaticResources.zip
