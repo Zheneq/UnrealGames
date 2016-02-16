@@ -6,7 +6,7 @@ public class UnrealGames : ModuleRules
 {
 	public UnrealGames(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "RenderCore", "RHI", "OpenCV" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "RenderCore", "RHI"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
