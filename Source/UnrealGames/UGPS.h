@@ -31,4 +31,11 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		AUGPS* Next;
+
+	/**
+	* Retreives player avatar from Steam.
+	* @return Returns None if the avatar is unavailable
+	*/
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
+		UTexture2D* GetSteamAvatar(int32 &width, int32 &height);
 };

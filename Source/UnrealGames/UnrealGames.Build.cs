@@ -6,21 +6,30 @@ public class UnrealGames : ModuleRules
 {
 	public UnrealGames(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "RenderCore", "RHI"});
-
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "RenderCore", "RHI", "OnlineSubsystem", "OnlineSubsystemUtils"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-		// if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
-		// {
-		//		if (UEBuildConfiguration.bCompileSteamOSS == true)
-		//		{
-		//			DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
-		//		}
-		// }
-	}
+		// Online features
+		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem" });
+        DynamicallyLoadedModuleNames.Add("OnlineSubsystemNull");
+        if ((Target.Platform == UnrealTargetPlatform.Win32) || (Target.Platform == UnrealTargetPlatform.Win64))
+		{
+			if (UEBuildConfiguration.bCompileSteamOSS == true)
+			{
+				DynamicallyLoadedModuleNames.Add("OnlineSubsystemSteam");
+			}
+		}
+
+        if (Target.Platform == UnrealTargetPlatform.Win32)
+        {
+            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv132/sdk/redistributable_bin/steam_api.lib");
+        }
+        if (Target.Platform == UnrealTargetPlatform.Win64)
+        {
+            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv132/sdk/redistributable_bin/win64/steam_api64.lib");
+        }
+        
+    }
 }
