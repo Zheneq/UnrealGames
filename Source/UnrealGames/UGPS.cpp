@@ -21,7 +21,54 @@ void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetime
 	DOREPLIFETIME(AUGPS, PlayerIndex);
 	DOREPLIFETIME(AUGPS, PlayerColor);
 	DOREPLIFETIME(AUGPS, Next);
+	DOREPLIFETIME(AUGPS, Settings);
+	DOREPLIFETIME(AUGPS, Team);
 
+}
+
+void AUGPS::CopyProperties(APlayerState* PlayerState)
+{
+	Super::CopyProperties(PlayerState);
+
+	auto PS = Cast<AUGPS>(PlayerState);
+	if (PS)
+	{
+		Next = PS->Next;
+		Settings = PS->Settings;
+	}
+}
+
+void AUGPS::ScoreObjective(int32 Points)
+{
+	Score += Points;
+
+	// Sometimes I'm crazy with logs
+	if (Points > 0)
+	{
+		if (Points == 1)
+		{
+			UE_LOG(LogTemp, Log, TEXT("UGPS::ScoreObjective: %s scored!"), *PlayerName);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("UGPS::ScoreObjective: %s scored %d points!"), *PlayerName, Points);
+		}
+	}
+	else if (Points < 0)
+	{
+		if (Points == -1)
+		{
+			UE_LOG(LogTemp, Log, TEXT("UGPS::ScoreObjective: %s lost a point!"), *PlayerName);
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("UGPS::ScoreObjective: %s lost %d points!"), *PlayerName, -Points);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UGPS::ScoreObjective: %s scored 0 points!"), *PlayerName);
+	}
 }
 
 UTexture2D* AUGPS::GetSteamAvatar(int32 &width, int32 &height)

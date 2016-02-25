@@ -14,12 +14,17 @@ class UNREALGAMES_API AUGPS : public APlayerState
 	GENERATED_BODY()
 
 public:
+	// BEGIN PlayerState intreface
+	virtual void CopyProperties(APlayerState* PlayerState) override;
+	// END
+
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		bool bMyTurn;
 	
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		bool bIsInGame;
 
+	// Deprecated
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		int32 UGScore;
 
@@ -31,6 +36,16 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		AUGPS* Next;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
+		int32 Team;
+
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
+		class AUGSettings* Settings;
+
+
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
+		void ScoreObjective(int32 Points = 1);
 
 	/**
 	* Retreives player avatar from Steam.
