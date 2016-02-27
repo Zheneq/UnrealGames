@@ -53,4 +53,7 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
 		UTexture2D* GetSteamAvatar(int32 &width, int32 &height);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		class AUGPC* GetOwningPlayerController();
 };

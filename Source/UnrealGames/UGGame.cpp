@@ -16,6 +16,7 @@ AUGGame::AUGGame()
 
 TArray<AActor*> AUGGame::GetBoundActorsByTag(FName Tag)
 {
+	UE_LOG(LogTemp, Error, TEXT("UGGame::GetBoundActorsByTag NOT IMPLEMENTED!!"));
 	return TArray<AActor*>();
 }
 

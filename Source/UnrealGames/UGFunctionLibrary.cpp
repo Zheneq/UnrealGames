@@ -3,6 +3,7 @@
 #include "UnrealGames.h"
 #include "UGFunctionLibrary.h"
 #include "Runtime/UMG/Public/Components/WidgetComponent.h"
+#include "UGGM.h"
 
 float UUGFunctionLibrary::Infinity()
 {
@@ -12,4 +13,19 @@ float UUGFunctionLibrary::Infinity()
 bool UUGFunctionLibrary::IsPreviewActor(AActor* Actor)
 {
 	return Actor->HasAnyFlags(RF_Transient);
+}
+
+class AUGGame* UUGFunctionLibrary::GetGame(UObject* WorldContextObject)
+{
+	auto World = WorldContextObject->GetWorld();
+	if (World)
+	{
+		auto GM = Cast<AUGGM>(World->GetAuthGameMode());
+		if (GM)
+		{
+			return GM->GetGame();
+		}
+	}
+
+	return nullptr;
 }

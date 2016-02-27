@@ -8,6 +8,8 @@
 #include "Runtime/Online/OnlineSubsystem/Public/OnlineSubsystem.h"
 #include "Net/UnrealNetwork.h"
 
+#include "UGPC.h"
+
 
 
 void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
@@ -36,6 +38,11 @@ void AUGPS::CopyProperties(APlayerState* PlayerState)
 		Next = PS->Next;
 		Settings = PS->Settings;
 	}
+}
+
+AUGPC* AUGPS::GetOwningPlayerController()
+{
+	return Cast<AUGPC>(GetOwner());
 }
 
 void AUGPS::ScoreObjective(int32 Points)

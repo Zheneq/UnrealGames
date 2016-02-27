@@ -19,6 +19,10 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "UnrealGames")
 		static bool IsPreviewActor(AActor* Actor);
+
+	UFUNCTION(BlueprintPure, Category = "UnrealGames", meta = (WorldContext = "WorldContextObject"))
+		static class AUGGame* GetGame(UObject* WorldContextObject);
+
 	
 	
 };
