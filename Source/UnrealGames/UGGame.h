@@ -29,6 +29,8 @@ public:
 	// Sets default values for this actor's properties
 	AUGGame();
 
+	void BeginPlay() override;
+
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		virtual class AUGPS* GetCurPlayer();
 
@@ -170,6 +172,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
 		bool CheckTeams();
 
+	/**
+	* Called when new player connected.
+	*/
+	UFUNCTION(BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
+		void NewPlayer(AUGPS* Player);
+
 	// END Unreal Games Game-Specific Events
 	
 	// Clients who are actually in game (not spectators or whatever)
@@ -201,4 +209,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
 		bool bTeamsAllowed;
+
+	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+		bool bIsInGame;
 };

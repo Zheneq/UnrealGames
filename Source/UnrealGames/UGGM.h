@@ -17,6 +17,11 @@ class UNREALGAMES_API AUGGM : public AGameMode
 
 public:
 	AUGGM(const FObjectInitializer& ObjectInitializer);
+	void BeginPlay() override;
+
+	TSubclassOf<APlayerState> GetPlayerStateClass();
+
+	void PostLogin(APlayerController* NewPlayer) override;
 
 	void GetSeamlessTravelActorList(bool bToEntry, TArray<AActor*>& ActorList) override;
 
@@ -25,5 +30,17 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		class AUGGame* GetGame();
 	
-	
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		bool HasEverybodyConnected();
+
+	UPROPERTY()
+		TArray<AActor*> BoundActors;
+
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
+		void AddBoundActor(AActor* Actor);
+
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
+		void AddBoundActors(TArray<AActor*> Actors);
+
+
 };

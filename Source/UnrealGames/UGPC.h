@@ -12,8 +12,10 @@ UCLASS()
 class UNREALGAMES_API AUGPC : public APlayerController
 {
 	GENERATED_BODY()
-	
-	
+
+	// BEGIN AController Interface
+		void InitPlayerState() override;
+	// END AController Interface
 	
 	
 };

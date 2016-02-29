@@ -4,6 +4,7 @@
 #include "UGGame.h"
 #include "UGPS.h"
 #include "UGGS.h"
+#include "UGGM.h"
 
 
 // Sets default values
@@ -14,10 +15,46 @@ AUGGame::AUGGame()
 
 }
 
+void AUGGame::BeginPlay()
+{
+	// Collect all players that are already in game
+	auto GS = GetWorld() ? GetWorld()->GetGameState() : nullptr;
+	if (GS)
+	{
+		for (auto PS : GS->PlayerArray)
+		{
+			auto player = Cast<AUGPS>(PS);
+			if (player)
+			{
+				Players.AddUnique(player);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("UGGame::BeginPlay: Wrong player state (%s)"), PS ? *PS->GetClass()->GetName() : TEXT(""));
+			}
+		}
+	}
+
+
+}
+
 TArray<AActor*> AUGGame::GetBoundActorsByTag(FName Tag)
 {
-	UE_LOG(LogTemp, Error, TEXT("UGGame::GetBoundActorsByTag NOT IMPLEMENTED!!"));
-	return TArray<AActor*>();
+	auto GM = GetWorld() ? Cast<AUGGM>(GetWorld()->GetAuthGameMode()) : nullptr;
+	TArray<AActor*> res;
+
+	if (GM)
+	{
+		for (auto a : GM->BoundActors)
+		{
+			if (a->GetComponentsByTag(UActorComponent::StaticClass(), Tag).Num() > 0)
+			{
+				res.Add(a);
+			}
+		}
+	}
+
+	return res;
 }
 
 AUGPS* AUGGame::GetCurPlayer()
@@ -46,23 +83,47 @@ void AUGGame::IncrementPlayerIndex()
 		while (!GetCurPlayer()->bIsInGame)
 			CurPlayerIndex = (CurPlayerIndex + 1) % Players.Num();
 	}
+
+	UE_LOG(LogTemp, Log, TEXT("UGGame::IncrementPlayerIndex"));
 }
 
 
 void AUGGame::StartGame()
 {
+	// Checking players array for corrupted data
+	for (int32 i = 0; i < Players.Num();)
+	{
+		if (!IsValid(Players[i]))
+		{
+			Players.RemoveAt(i);
+			UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: Invalid player in players array."));
+		}
+		else
+		{
+			++i;
+		}
+	}
+	
+	if (Players.Num() == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: No players! Aborting."));
+		return;
+	}
+
 	SortPlayers();
 
 	// Set up player chain
 	for (int32 i = 0; i < Players.Num(); ++i)
 	{
 		Players[i]->Score = 0;
-		Players[i]->Next = Players[i % Players.Num()];
+		Players[i]->Next = Players[(i + 1) % Players.Num()];
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("UGGame::InitGame: Initialized %d players."), Players.Num());
+	UE_LOG(LogTemp, Log, TEXT("UGGame::StartGame: Initialized %d players."), Players.Num());
 
 	InitGame();
+
+	bIsInGame = true;
 
 	ResetRound();
 }
@@ -77,7 +138,10 @@ void AUGGame::ResetRound()
 		InitPlayer(player);
 		player->bIsInGame = true;
 	}
-	Cast<AUGGS>(GetWorld()->GetGameState())->bIsInGame = true;
+
+	auto GS = Cast<AUGGS>(GetWorld()->GetGameState());
+	if(GS)
+		GS->bIsInGame = true;
 
 	StartTurn();
 }
@@ -127,6 +191,10 @@ void AUGGame::EndRound(TArray<AUGPS*> Winners)
 	{
 		FTimerHandle timer;
 		GetWorldTimerManager().SetTimer(timer, this, &AUGGame::ResetRound, 3.0f, false);
+	}
+	else
+	{
+		bIsInGame = false;
 	}
 
 }
@@ -226,6 +294,14 @@ bool AUGGame::CheckEndGame_Implementation()
 {
 	// Defaults to a single-round game
 	return true;
+}
+
+void AUGGame::NewPlayer_Implementation(AUGPS* Player)
+{
+	if (!bIsInGame)
+	{
+		Players.AddUnique(Player);
+	}
 }
 
 // In case we want to add some default functionality
