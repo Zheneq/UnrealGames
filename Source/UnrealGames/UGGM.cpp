@@ -44,8 +44,13 @@ void AUGGM::BeginPlay()
 {
 	Super::BeginPlay();
 
+	FindGame();
+}
+
+void AUGGM::FindGame()
+{
 	auto World = GetWorld();
-	
+
 	if (!IsValid(Game) && World)
 	{
 		for (TActorIterator<AUGGame> GameIt(World); GameIt; ++GameIt)
@@ -61,6 +66,9 @@ void AUGGM::BeginPlay()
 
 TSubclassOf<APlayerState> AUGGM::GetPlayerStateClass()
 {
+	if (!IsValid(Game))
+		FindGame();
+
 	if (IsValid(Game))
 		return Game->PlayerStateClass;
 

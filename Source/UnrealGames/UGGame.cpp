@@ -187,7 +187,7 @@ void AUGGame::EndRound(TArray<AUGPS*> Winners)
 		UE_LOG(LogTemp, Log, TEXT("UGGame::EndRound: Round ends, we have no winners!"));
 	}
 
-	if (CheckEndGame())
+	if (!CheckEndGame())
 	{
 		FTimerHandle timer;
 		GetWorldTimerManager().SetTimer(timer, this, &AUGGame::ResetRound, 3.0f, false);
@@ -264,7 +264,7 @@ bool AUGGame::CheckEndRound_Implementation()
 
 	if (bRoundOver)
 	{
-		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndGame: Round is over."));
+		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndRound: Round is over."));
 
 		EndRound(GetWinners());
 
@@ -273,7 +273,7 @@ bool AUGGame::CheckEndRound_Implementation()
 
 	if (PlayerCount == 1)
 	{
-		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndGame: Only one player in game."));
+		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndRound: Only one player in game."));
 
 		EndRound(GetWinners());
 
@@ -281,7 +281,7 @@ bool AUGGame::CheckEndRound_Implementation()
 	}
 	if (PlayerCount == 0)
 	{
-		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndGame: No players in game."));
+		UE_LOG(LogTemp, Log, TEXT("UGGame::CheckEndRound: No players in game."));
 
 		EndRound(GetWinners());
 

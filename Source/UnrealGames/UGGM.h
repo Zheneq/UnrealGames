@@ -15,6 +15,8 @@ class UNREALGAMES_API AUGGM : public AGameMode
 
 	class AUGGame* Game;
 
+	void FindGame();
+
 public:
 	AUGGM(const FObjectInitializer& ObjectInitializer);
 	void BeginPlay() override;
