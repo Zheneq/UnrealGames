@@ -13,6 +13,17 @@ AUGGame::AUGGame()
  	// Set this actor not to call Tick() every frame.
 	PrimaryActorTick.bCanEverTick = false;
 
+	CurPlayerIndex = 0;
+	Lap = 0;
+	bRoundOver = false;
+	Settings = nullptr;
+	bIsInGame = false;
+
+	GameName = FText::FromString(TEXT("Unknown Game"));
+	MaxPlayers = 2;
+	PlayerStateClass = AUGPS::StaticClass();
+	bTeamsAllowed = false;
+
 }
 
 void AUGGame::BeginPlay()

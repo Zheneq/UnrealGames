@@ -192,8 +192,11 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 		int32 Lap;
 
-	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
 		FText GameName;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
+		int32 MaxPlayers;
 
 	UPROPERTY(BlueprintReadWrite)
 		bool bRoundOver;
