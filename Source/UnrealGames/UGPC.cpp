@@ -34,4 +34,12 @@ void AUGPC::InitPlayerState()
 	}
 }
 
+void AUGPC::NotifyLoadedWorld(FName WorldPackageName, bool bFinalDest)
+{
+	Super::NotifyLoadedWorld(WorldPackageName, bFinalDest);
 
+	if (bFinalDest)
+	{
+		OnEndSeamlessTravel();
+	}
+}

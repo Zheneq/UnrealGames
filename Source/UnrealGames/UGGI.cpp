@@ -6,7 +6,7 @@
 #include "UGGM.h"
 
 
-void UUGGI::StoreUGGame(class AUGGame* _Game)
+void UUGGI::StoreUGGame(AUGGame* _Game)
 {
 	Game = _Game;
 

@@ -23,6 +23,7 @@ AUGGame::AUGGame()
 	MaxPlayers = 2;
 	PlayerStateClass = AUGPS::StaticClass();
 	bTeamsAllowed = false;
+	WinScore = 1.0f;
 
 }
 
@@ -102,16 +103,14 @@ void AUGGame::IncrementPlayerIndex()
 void AUGGame::StartGame()
 {
 	// Checking players array for corrupted data
-	for (int32 i = 0; i < Players.Num();)
+	for (int32 i = 0; i < Players.Num(); ++i)
 	{
 		if (!IsValid(Players[i]))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: Invalid player in players array (%s)."), *GetNameSafe(Players[i]));
 			Players.RemoveAt(i);
-			UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: Invalid player in players array."));
-		}
-		else
-		{
-			++i;
+
+			--i;
 		}
 	}
 	
@@ -206,6 +205,7 @@ void AUGGame::EndRound(TArray<AUGPS*> Winners)
 	else
 	{
 		bIsInGame = false;
+		GameOver();
 	}
 
 }
@@ -303,8 +303,13 @@ bool AUGGame::CheckEndRound_Implementation()
 
 bool AUGGame::CheckEndGame_Implementation()
 {
-	// Defaults to a single-round game
-	return true;
+	for (auto p : Players)
+	{
+		if (p->Score >= WinScore)
+			return true;
+	}
+
+	return false;
 }
 
 void AUGGame::NewPlayer_Implementation(AUGPS* Player)
@@ -313,6 +318,29 @@ void AUGGame::NewPlayer_Implementation(AUGPS* Player)
 	{
 		Players.AddUnique(Player);
 	}
+}
+
+void AUGGame::UpdatePlayerState(AUGPS* OldPS, AUGPS* NewPS)
+{
+	if (!IsValid(OldPS) || !IsValid(NewPS))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UGGame::UpdatePlayerState: Invalid argument."));
+		return;
+	}
+
+	int32 i = Players.Find(OldPS);
+	if (i != INDEX_NONE)
+	{
+		Players.Remove(OldPS);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UGGame::UpdatePlayerState: OldPS (%s) is not in game."), *GetNameSafe(OldPS));
+		return;
+	}
+
+	Players.Add(NewPS);
+	UE_LOG(LogTemp, Log, TEXT("UGGame::UpdatePlayerState: Switched: %s -> %s."), *GetNameSafe(OldPS), *GetNameSafe(NewPS));
 }
 
 // In case we want to add some default functionality

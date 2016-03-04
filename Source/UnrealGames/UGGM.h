@@ -20,6 +20,7 @@ class UNREALGAMES_API AUGGM : public AGameMode
 public:
 	AUGGM(const FObjectInitializer& ObjectInitializer);
 	void BeginPlay() override;
+	virtual void PreLogin(const FString & Options, const FString & Address, const TSharedPtr< const FUniqueNetId > & UniqueId, FString & ErrorMessage) override;
 
 	TSubclassOf<APlayerState> GetPlayerStateClass();
 

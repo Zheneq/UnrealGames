@@ -83,14 +83,14 @@ void AUGGM::GetSeamlessTravelActorList(bool bToEntry, TArray<AActor*>& ActorList
 
 AUGGame* AUGGM::GetGame()
 {
-	/* // Redundant
+
 	if (!IsValid(Game))
 	{
 		auto GI = Cast<UUGGI>(GetGameInstance());
 
 		if (IsValid(GI)) Game = GI->Game;
 	}
-	*/
+	
 	return Game;
 }
 
@@ -109,10 +109,23 @@ void AUGGM::SetGame(class AUGGame* _Game)
 bool AUGGM::HasEverybodyConnected()
 {
 	if (!IsValid(Game)) return false;
-
+	/*
 	UE_LOG(LogTemp, Log, TEXT("UGGM::HasEverybodyConnected: %d/%d"), NumPlayers, Game->Players.Num());
 
 	return NumPlayers >= Game->Players.Num();
+	*/
+
+	UE_LOG(LogTemp, Log, TEXT("UGGM::HasEverybodyConnected: %d more player(s) to arrive."), NumTravellingPlayers);
+	return !NumTravellingPlayers;
+}
+
+void AUGGM::PreLogin(const FString & Options, const FString & Address, const TSharedPtr< const FUniqueNetId > & UniqueId, FString & ErrorMessage)
+{
+	// Reject if game is already up and running
+	if (IsValid(Game) && Game->bIsInGame)
+	{
+		ErrorMessage = TEXT("The game has already started.");
+	}
 }
 
 void AUGGM::PostLogin(APlayerController* NewPlayer)
@@ -121,7 +134,7 @@ void AUGGM::PostLogin(APlayerController* NewPlayer)
 
 	AUGPS* PS = Cast<AUGPS>(NewPlayer->PlayerState);
 
-	if (PS && IsValid(Game))
+	if (IsValid(PS) && IsValid(Game))
 	{
 		Game->NewPlayer(PS);
 	}

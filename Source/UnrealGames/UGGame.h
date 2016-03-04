@@ -90,6 +90,11 @@ public:
 	*/
 	virtual void IncrementPlayerIndex();
 
+	/**
+	* Called during Seamless Travel when playerstates are recreated.
+	*/
+	virtual void UpdatePlayerState(AUGPS* OldPS, AUGPS* NewPS);
+
 
 	// BEGIN Unreal Games Game-Specific Events
 
@@ -178,6 +183,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
 		void NewPlayer(AUGPS* Player);
 
+	/**
+	* Called when game is over.
+	*/
+	UFUNCTION(BlueprintImplementableEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
+		void GameOver();
+
 	// END Unreal Games Game-Specific Events
 	
 	// Clients who are actually in game (not spectators or whatever)
@@ -198,8 +209,11 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
 		int32 MaxPlayers;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = "UnrealGames")
 		bool bRoundOver;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
+		float WinScore;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames")
 		TSubclassOf<AUGPS> PlayerStateClass;

@@ -9,7 +9,8 @@
 #include "Net/UnrealNetwork.h"
 
 #include "UGPC.h"
-
+#include "UGFunctionLibrary.h"
+#include "UGGame.h"
 
 
 void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
@@ -34,15 +35,21 @@ void AUGPS::BeginPlay()
 
 }
 
-void AUGPS::CopyProperties(APlayerState* PlayerState)
+void AUGPS::CopyProperties(APlayerState* NewPS)
 {
-	Super::CopyProperties(PlayerState);
+	Super::CopyProperties(NewPS);
 
-	auto PS = Cast<AUGPS>(PlayerState);
+	auto PS = Cast<AUGPS>(NewPS);
 	if (PS)
 	{
-		Next = PS->Next;
-		Settings = PS->Settings;
+		PS->Next = Next;
+		PS->Settings = Settings;
+	}
+
+	auto Game = UUGFunctionLibrary::GetGame(this);
+	if (Game)
+	{
+		Game->UpdatePlayerState(this, PS);
 	}
 }
 

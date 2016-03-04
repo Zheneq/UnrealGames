@@ -13,9 +13,16 @@ class UNREALGAMES_API AUGPC : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+
 	// BEGIN AController Interface
-		void InitPlayerState() override;
+	void InitPlayerState() override;
 	// END AController Interface
-	
-	
+
+	// BEGIN APlayerController Interface
+	void NotifyLoadedWorld(FName WorldPackageName, bool bFinalDest) override;
+	// END APlayerController Interface
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "UnrealGames")
+		void OnEndSeamlessTravel();
 };
