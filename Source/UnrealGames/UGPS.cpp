@@ -89,6 +89,8 @@ void AUGPS::ScoreObjective(int32 Points)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("UGPS::ScoreObjective: %s scored 0 points!"), *PlayerName);
 	}
+
+	OnScore(Points);
 }
 
 UTexture2D* AUGPS::GetSteamAvatar(int32 &width, int32 &height)
@@ -146,3 +148,9 @@ UTexture2D* AUGPS::GetSteamAvatar(int32 &width, int32 &height)
 	return nullptr;
 }
 
+void AUGPS::ClientGameLog_Implementation(const FText& Message)
+{
+	UE_LOG(UGGameLog, Log, TEXT("%s recieved: %s"), *PlayerName, *Message.ToString());
+
+	ShowGameLogMessageOnScreen(Message);
+}

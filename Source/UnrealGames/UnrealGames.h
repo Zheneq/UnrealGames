@@ -4,3 +4,5 @@
 
 #include "Engine.h"
 
+// Game Log
+DECLARE_LOG_CATEGORY_EXTERN(UGGameLog, Log, All);

@@ -71,6 +71,13 @@ public:
 	*/
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "UnrealGames")
 		virtual bool KickPlayer(AUGPS* Player);
+
+	/**
+	* Writes the message both to on-screen log and internal one.
+	* 
+	*/
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "UnrealGames")
+		virtual void Log(FText Message);
 	// END Unreal Games Game Interface
 
 

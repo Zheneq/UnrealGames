@@ -3,3 +3,6 @@
 #include "UnrealGames.h"
 
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, UnrealGames, "UnrealGames" );
+
+// Game Log
+DEFINE_LOG_CATEGORY(UGGameLog);

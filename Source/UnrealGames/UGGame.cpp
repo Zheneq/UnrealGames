@@ -343,6 +343,22 @@ void AUGGame::UpdatePlayerState(AUGPS* OldPS, AUGPS* NewPS)
 	UE_LOG(LogTemp, Log, TEXT("UGGame::UpdatePlayerState: Switched: %s -> %s."), *GetNameSafe(OldPS), *GetNameSafe(NewPS));
 }
 
+void AUGGame::Log(FText Message)
+{
+	UE_LOG(UGGameLog, Log, TEXT("%s"), *Message.ToString());
+
+	AGameState* GS = GetWorld() ? GetWorld()->GetAuthGameMode() ? GetWorld()->GetAuthGameMode()->GameState : nullptr : nullptr;
+
+	for (auto p : GS->PlayerArray)
+	{
+		auto PS = Cast<AUGPS>(p);
+		if (PS)
+		{
+			PS->ClientGameLog(Message);
+		}
+	}
+}
+
 // In case we want to add some default functionality
 void AUGGame::InitGame_Implementation() {}
 void AUGGame::SortPlayers_Implementation() {}

@@ -58,4 +58,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		class AUGPC* GetOwningPlayerController();
+
+	UFUNCTION(Client, Reliable, BlueprintCallable, Category = "UnrealGames")
+		void ClientGameLog(const FText& Message);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "UnrealGames")
+		void ShowGameLogMessageOnScreen(const FText& Message);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
+		void OnScore(int32 Points);
 };
