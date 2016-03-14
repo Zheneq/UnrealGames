@@ -5,20 +5,6 @@
 #include "GameFramework/Actor.h"
 #include "UGGame.generated.h"
 
-USTRUCT()
-struct FIntParam
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UnrealGames|Settings")
-		FName Key;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UnrealGames|Settings")
-		int32 MinValue;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UnrealGames|Settings")
-		int32 MaxValue;
-};
 
 UCLASS()
 class UNREALGAMES_API AUGGame : public AActor
@@ -27,7 +13,7 @@ class UNREALGAMES_API AUGGame : public AActor
 
 public:
 	// Sets default values for this actor's properties
-	AUGGame();
+	AUGGame(const FObjectInitializer& ObjectInitializer);
 
 	void BeginPlay() override;
 
@@ -39,6 +25,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		virtual TArray<AActor*> GetBoundActorsByTag(FName Tag);
+
 
 	// BEGIN Unreal Games Game Interface 
 	/**
@@ -216,24 +203,22 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
 		int32 MaxPlayers;
 
-	UPROPERTY(BlueprintReadWrite, Category = "UnrealGames")
-		bool bRoundOver;
-
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
 		float WinScore;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames")
 		TSubclassOf<AUGPS> PlayerStateClass;
 
-	UPROPERTY(BlueprintReadWrite, Category = "UnrealGames")
-		class AUGSettings* Settings;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="UnrealGames")
-		TArray<FIntParam> IntParams;
+	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+		class UUGSettingsComponent* Settings;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
 		bool bTeamsAllowed;
 
 	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
 		bool bIsInGame;
+
+	// If set, ends the round after current turn
+	UPROPERTY(BlueprintReadWrite, Category = "UnrealGames")
+		bool bRoundOver;
 };

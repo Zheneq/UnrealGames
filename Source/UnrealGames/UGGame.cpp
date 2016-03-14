@@ -5,10 +5,12 @@
 #include "UGPS.h"
 #include "UGGS.h"
 #include "UGGM.h"
+#include "UGSettingsComponent.h"
 
 
 // Sets default values
-AUGGame::AUGGame()
+AUGGame::AUGGame(const FObjectInitializer& ObjectInitializer):
+	Super(ObjectInitializer)
 {
  	// Set this actor not to call Tick() every frame.
 	PrimaryActorTick.bCanEverTick = false;
@@ -16,8 +18,8 @@ AUGGame::AUGGame()
 	CurPlayerIndex = 0;
 	Lap = 0;
 	bRoundOver = false;
-	Settings = nullptr;
 	bIsInGame = false;
+	Settings = ObjectInitializer.CreateDefaultSubobject<UUGSettingsComponent>(this, TEXT("SettingsComp"));
 
 	GameName = FText::FromString(TEXT("Unknown Game"));
 	MaxPlayers = 2;
@@ -29,6 +31,8 @@ AUGGame::AUGGame()
 
 void AUGGame::BeginPlay()
 {
+	Super::BeginPlay();
+
 	// Collect all players that are already in game
 	auto GS = GetWorld() ? GetWorld()->GetGameState() : nullptr;
 	if (GS)
