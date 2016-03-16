@@ -13,9 +13,12 @@ class UNREALGAMES_API AUGGame : public AActor
 
 public:
 	// Sets default values for this actor's properties
-	AUGGame(const FObjectInitializer& ObjectInitializer);
+	AUGGame();
 
 	void BeginPlay() override;
+
+	// Construction Script
+	void OnConstruction(const FTransform& Transform) override;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		virtual class AUGPS* GetCurPlayer();
@@ -202,9 +205,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
 		int32 MaxPlayers;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
-		float WinScore;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames")
 		TSubclassOf<AUGPS> PlayerStateClass;

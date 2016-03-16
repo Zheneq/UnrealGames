@@ -2,6 +2,7 @@
 
 #include "UnrealGames.h"
 #include "UGSettingsComponent.h"
+#include "Settings/UGSettingsParamWrapperInt.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -23,7 +24,19 @@ void UUGSettingsComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	for (auto& p : IntParameters)
+	{
+		auto w = ConstructObject<UUGSettingsParamWrapperInt>(UUGSettingsParamWrapperInt::StaticClass());
+		if (!w)
+		{
+			UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
+		}
+		else
+		{
+			w->Init(p);
+			IntWrappers.Add(w);
+		}
+	}
 	
 }
 
@@ -42,4 +55,18 @@ void UUGSettingsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty 
 
 	DOREPLIFETIME(UUGSettingsComponent, IntParameters);
 
+}
+
+bool UUGSettingsComponent::GetIntParam(FName Name, int32& outValue)
+{
+	for (const auto& w : IntWrappers)
+	{
+		if (w->IntParam.Name == Name)
+		{
+			outValue = w->IntParam.Value;
+			return true;
+		}
+	}
+
+	return false;
 }

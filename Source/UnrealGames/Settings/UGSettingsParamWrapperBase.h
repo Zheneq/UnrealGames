@@ -8,7 +8,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class UNREALGAMES_API UUGSettingsParamWrapperBase : public UObject
 {
 	GENERATED_BODY()

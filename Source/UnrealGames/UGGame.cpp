@@ -9,8 +9,8 @@
 
 
 // Sets default values
-AUGGame::AUGGame(const FObjectInitializer& ObjectInitializer):
-	Super(ObjectInitializer)
+AUGGame::AUGGame():
+	Super()
 {
  	// Set this actor not to call Tick() every frame.
 	PrimaryActorTick.bCanEverTick = false;
@@ -19,14 +19,21 @@ AUGGame::AUGGame(const FObjectInitializer& ObjectInitializer):
 	Lap = 0;
 	bRoundOver = false;
 	bIsInGame = false;
-	Settings = ObjectInitializer.CreateDefaultSubobject<UUGSettingsComponent>(this, TEXT("SettingsComp"));
+	//Settings = CreateDefaultSubobject<UUGSettingsComponent>(TEXT("SettingsComp"));
+	Settings = nullptr;
 
 	GameName = FText::FromString(TEXT("Unknown Game"));
 	MaxPlayers = 2;
 	PlayerStateClass = AUGPS::StaticClass();
 	bTeamsAllowed = false;
-	WinScore = 1.0f;
 
+}
+
+void AUGGame::OnConstruction(const FTransform& Transform)
+{
+	Settings = FindComponentByClass<UUGSettingsComponent>();
+
+	Super::OnConstruction(Transform);
 }
 
 void AUGGame::BeginPlay()
@@ -307,10 +314,14 @@ bool AUGGame::CheckEndRound_Implementation()
 
 bool AUGGame::CheckEndGame_Implementation()
 {
-	for (auto p : Players)
+	int32 WinScore;
+	if (Settings && Settings->GetIntParam(FName(TEXT("WinScore")), WinScore))
 	{
-		if (p->Score >= WinScore)
-			return true;
+		for (auto p : Players)
+		{
+			if (p->Score >= WinScore)
+				return true;
+		}
 	}
 
 	return false;

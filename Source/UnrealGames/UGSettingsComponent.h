@@ -52,7 +52,7 @@ struct FIntParam : public FBaseParam
 };
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(UnrealGames), meta=(BlueprintSpawnableComponent) )
 class UNREALGAMES_API UUGSettingsComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -68,6 +68,12 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 		
-	UPROPERTY(EditDefaultsOnly, Replicated, Category = "UnrealGames|Setting")
+	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|Settings")
 		TArray<FIntParam> IntParameters;
+
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames", meta = (DisplayName = "Int Parameters"))
+		TArray<class UUGSettingsParamWrapperInt*> IntWrappers;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		bool GetIntParam(FName Name, int32& outValue);
 };
