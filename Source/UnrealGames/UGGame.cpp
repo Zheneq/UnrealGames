@@ -156,8 +156,8 @@ void AUGGame::ResetRound()
 	InitRound();
 	for (auto player : Players)
 	{
-		InitPlayer(player);
 		player->bIsInGame = true;
+		InitPlayer(player);
 	}
 
 	auto GS = Cast<AUGGS>(GetWorld()->GetGameState());
