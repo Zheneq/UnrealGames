@@ -22,9 +22,10 @@ void UUGSettingsParamWrapperInt::Init(const FIntParam& ParamStruct)
 
 bool UUGSettingsParamWrapperInt::SetValue(int32 NewValue)
 {
-	if (NewValue > IntParam.MaxValue || NewValue < IntParam.MinValue)
-		return false;
+	return IntParam.SetValue(NewValue);
+}
 
-	IntParam.Value = NewValue;
-	return true;
+const FBaseParam* UUGSettingsParamWrapperInt::GetBaseStruct()
+{
+	return &IntParam;
 }

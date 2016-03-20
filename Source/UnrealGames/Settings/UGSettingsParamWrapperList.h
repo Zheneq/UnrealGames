@@ -3,26 +3,25 @@
 #pragma once
 
 #include "Settings/UGSettingsParamWrapperBase.h"
-#include "UGSettingsParamWrapperInt.generated.h"
+#include "UGSettingsParamWrapperList.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALGAMES_API UUGSettingsParamWrapperInt : public UUGSettingsParamWrapperBase
+class UNREALGAMES_API UUGSettingsParamWrapperList : public UUGSettingsParamWrapperBase
 {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
-		FIntParam IntParam;
+		FListParam ListParam;
 
 	virtual const FBaseParam* GetBaseStruct() override;
 
-	void Init(const FIntParam& ParamStruct);
+	void Init(const FListParam& ParamStruct);
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
-		bool SetValue(int32 NewValue);
-	
-	
+		bool Select(int32 Index);
+
 };

@@ -3,6 +3,7 @@
 #include "UnrealGames.h"
 #include "UGSettingsComponent.h"
 #include "Settings/UGSettingsParamWrapperInt.h"
+#include "Settings/UGSettingsParamWrapperList.h"
 #include "Net/UnrealNetwork.h"
 
 
@@ -26,7 +27,7 @@ void UUGSettingsComponent::BeginPlay()
 
 	for (auto& p : IntParameters)
 	{
-		auto w = ConstructObject<UUGSettingsParamWrapperInt>(UUGSettingsParamWrapperInt::StaticClass());
+		auto w = NewObject<UUGSettingsParamWrapperInt>();
 		if (!w)
 		{
 			UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
@@ -35,6 +36,20 @@ void UUGSettingsComponent::BeginPlay()
 		{
 			w->Init(p);
 			IntWrappers.Add(w);
+		}
+	}
+
+	for (auto& p : ListParameters)
+	{
+		auto w = NewObject<UUGSettingsParamWrapperList>();
+		if (!w)
+		{
+			UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
+		}
+		else
+		{
+			w->Init(p);
+			ListWrappers.Add(w);
 		}
 	}
 	
