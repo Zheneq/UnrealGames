@@ -87,7 +87,7 @@ void AUGCardManager::CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicit
 {
 	if (GetGroup(Player, Name))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Group %s for player %s already exists."), *Name.ToString(), Player ? *Player->PlayerName : TEXT("the game"));
+		UE_LOG(LogTemp, Log, TEXT("Group %s for player %s already exists."), *Name.ToString(), Player ? *Player->PlayerName : TEXT("the game"));
 		return;
 	}
 
@@ -188,7 +188,7 @@ bool AUGCardManager::Pop(FName FromGroup, AUGPS* ToPlayer, FName ToGroup, AUGPS*
 
 	if (!From->Cards.Num())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Pop: Group %s for player %s is empty."), *FromGroup.ToString(), FromPlayer ? *FromPlayer->PlayerName : TEXT("the game"));
+		UE_LOG(LogTemp, Log, TEXT("Pop: Group %s for player %s is empty."), *FromGroup.ToString(), FromPlayer ? *FromPlayer->PlayerName : TEXT("the game"));
 		return false;
 	}
 

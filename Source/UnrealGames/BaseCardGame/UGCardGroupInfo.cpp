@@ -67,7 +67,7 @@ void AUGCardGroupInfo::Update()
 		Visualizer->Update();
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s: Update %s group info, %d cards."),
+	UE_LOG(LogTemp, Log, TEXT("%s: Update %s group info, %d cards."),
 		GetWorld()->IsServer() ? _TEXT("Server") : _TEXT("Client"),
 		Group ? *Group->FullName : *GetName(),
 		CardCount

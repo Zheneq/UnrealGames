@@ -154,8 +154,10 @@ void AUGGame::ResetRound()
 	bRoundOver = false;
 
 	InitRound();
+	UE_LOG(LogTemp, Log, TEXT("UGGame::ResetRound: %d players in game."), Players.Num());
 	for (auto player : Players)
 	{
+		UE_LOG(LogTemp, Log, TEXT("UGGame::ResetRound: Calling InitPlayer for %s."), player ? *player->PlayerName : TEXT("PLAYER NULL"));
 		InitPlayer(player);
 		player->bIsInGame = true;
 	}
