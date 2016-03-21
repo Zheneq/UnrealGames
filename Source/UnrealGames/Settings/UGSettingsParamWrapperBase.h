@@ -10,13 +10,20 @@
  * 
  */
 UCLASS(BlueprintType)
-class UNREALGAMES_API UUGSettingsParamWrapperBase : public UObject
+class UNREALGAMES_API UUGSettingsParamWrapperBase : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
+	UUGSettingsParamWrapperBase();
 
 	virtual const FBaseParam* GetBaseStruct();
+
+	//bool IsNameStableForNetworking() const override;
+	//bool IsSupportedForNetworking() const override;
+
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
+		bool bEditableOnClient;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		FText GetParamDisplayName();

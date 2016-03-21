@@ -25,50 +25,48 @@ void UUGSettingsComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	for (auto& p : IntParameters)
+	if (GetOwner()->Role == ROLE_Authority)
 	{
-		auto w = NewObject<UUGSettingsParamWrapperInt>();
-		if (!w)
+		for (auto& p : IntParameters)
 		{
-			UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
+			auto w = NewObject<UUGSettingsParamWrapperInt>(GetOwner());
+			if (!w)
+			{
+				UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
+			}
+			else
+			{
+				w->RegisterComponent();
+				w->Init(p);
+				w->bEditableOnClient = false;
+				IntWrappers.Add(w);
+			}
 		}
-		else
+
+		for (auto& p : ListParameters)
 		{
-			w->Init(p);
-			IntWrappers.Add(w);
+			auto w = NewObject<UUGSettingsParamWrapperList>(GetOwner());
+			if (!w)
+			{
+				UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
+			}
+			else
+			{
+				w->RegisterComponent();
+				w->Init(p);
+				w->bEditableOnClient = false;
+				ListWrappers.Add(w);
+			}
 		}
-	}
-
-	for (auto& p : ListParameters)
-	{
-		auto w = NewObject<UUGSettingsParamWrapperList>();
-		if (!w)
-		{
-			UE_LOG(LogTemp, Error, TEXT("UUGSettingsComponent::BeginPlay: Could not create wrapper for %s."), *p.DisplayName.ToString());
-		}
-		else
-		{
-			w->Init(p);
-			ListWrappers.Add(w);
-		}
-	}
-	
-}
-
-
-// Called every frame
-void UUGSettingsComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-	// ...
+	}	
 }
 
 void UUGSettingsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(UUGSettingsComponent, IntParameters);
+	DOREPLIFETIME(UUGSettingsComponent, IntWrappers);
+	DOREPLIFETIME(UUGSettingsComponent, ListWrappers);
 
 }
 
@@ -84,4 +82,9 @@ bool UUGSettingsComponent::GetIntParam(FName Name, int32& outValue)
 	}
 
 	return false;
+}
+
+void UUGSettingsComponent::OnParamRep()
+{
+	OnParamReplication.Broadcast();
 }

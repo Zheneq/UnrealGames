@@ -35,7 +35,7 @@ AUGGM::AUGGM(const FObjectInitializer& ObjectInitializer):
 		{
 			UE_LOG(LogTemp, Log, TEXT("AUGGM has game!"));
 			SetGame(GI->Game);
-			UE_LOG(LogTemp, Log, TEXT("    - %s"), *Game->GameName.ToString());
+			UE_LOG(LogTemp, Log, TEXT("    - %s"), *GetGame()->GameName.ToString());
 		}
 	}
 }
@@ -51,7 +51,7 @@ void AUGGM::FindGame()
 {
 	auto World = GetWorld();
 
-	if (!IsValid(Game) && World)
+	if (!IsValid(GetGame()) && World)
 	{
 		for (TActorIterator<AUGGame> GameIt(World); GameIt; ++GameIt)
 		{
@@ -61,16 +61,16 @@ void AUGGM::FindGame()
 		}
 	}
 
-	SetGame(Game);
+	SetGame(GetGame()); //??!
 }
 
 TSubclassOf<APlayerState> AUGGM::GetPlayerStateClass()
 {
-	if (!IsValid(Game))
+	if (!IsValid(GetGame()))
 		FindGame();
 
-	if (IsValid(Game))
-		return Game->PlayerStateClass;
+	//if (IsValid(GetGame()))
+	//	return GetGame()->PlayerStateClass;
 
 	return PlayerStateClass;
 }
@@ -78,37 +78,35 @@ TSubclassOf<APlayerState> AUGGM::GetPlayerStateClass()
 void AUGGM::GetSeamlessTravelActorList(bool bToEntry, TArray<AActor*>& ActorList)
 {
 	Super::GetSeamlessTravelActorList(bToEntry, ActorList);
-	ActorList.Add(Game);
+	ActorList.Add(GetGame());
 }
 
 AUGGame* AUGGM::GetGame()
 {
-
-	if (!IsValid(Game))
+	auto gs = Cast<AUGGS>(GameState);
+	if (IsValid(gs))
 	{
-		auto GI = Cast<UUGGI>(GetGameInstance());
-
-		if (IsValid(GI)) Game = GI->Game;
+		return gs->GetGame();
 	}
-	
-	return Game;
+	return nullptr;
 }
 
 void AUGGM::SetGame(class AUGGame* _Game)
 {
-	Game = _Game;
-
-	if (IsValid(Game))
+	auto gs = Cast<AUGGS>(GameState);
+	if (IsValid(gs))
 	{
-		PlayerStateClass = Game->PlayerStateClass;
+		gs->SetGame(_Game);
 	}
-
-	UE_LOG(LogTemp, Log, TEXT("AUGGM::SetGame: New game is %s."), IsValid(Game) ? *Game->GameName.ToString() : TEXT("None"));
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UGGM::Cannot set Game: GameState is invalid!"));
+	}
 }
 
 bool AUGGM::HasEverybodyConnected()
 {
-	if (!IsValid(Game)) return false;
+	if (!IsValid(GetGame())) return false;
 	/*
 	UE_LOG(LogTemp, Log, TEXT("UGGM::HasEverybodyConnected: %d/%d"), NumPlayers, Game->Players.Num());
 
@@ -121,6 +119,7 @@ bool AUGGM::HasEverybodyConnected()
 
 void AUGGM::PreLogin(const FString & Options, const FString & Address, const TSharedPtr< const FUniqueNetId > & UniqueId, FString & ErrorMessage)
 {
+	auto Game = GetGame();
 	// Reject if game is already up and running
 	if (IsValid(Game) && Game->bIsInGame)
 	{
@@ -134,6 +133,7 @@ void AUGGM::PostLogin(APlayerController* NewPlayer)
 
 	AUGPS* PS = Cast<AUGPS>(NewPlayer->PlayerState);
 
+	auto Game = GetGame();
 	if (IsValid(PS) && IsValid(Game))
 	{
 		Game->NewPlayer(PS);

@@ -17,7 +17,12 @@ void UUGSettingsParamWrapperInt::GetLifetimeReplicatedProps(TArray< FLifetimePro
 void UUGSettingsParamWrapperInt::Init(const FIntParam& ParamStruct)
 {
 	IntParam = ParamStruct;
-	IntParam.Value = IntParam.DefaultValue;
+	if (IntParam.MaxValue < IntParam.MinValue)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UUGSettingsParamWrapperInt::Init: Wrong MinValue/MaxValue for %s (%d/%d)."), *IntParam.DisplayName.ToString(), IntParam.MinValue, IntParam.MaxValue);
+		IntParam.MaxValue = IntParam.MinValue;
+	}
+	SetValue(IntParam.DefaultValue);
 }
 
 bool UUGSettingsParamWrapperInt::SetValue(int32 NewValue)

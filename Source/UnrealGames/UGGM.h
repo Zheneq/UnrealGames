@@ -13,8 +13,6 @@ class UNREALGAMES_API AUGGM : public AGameMode
 {
 	GENERATED_BODY()
 
-	class AUGGame* Game;
-
 	void FindGame();
 
 public:

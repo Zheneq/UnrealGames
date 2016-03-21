@@ -43,10 +43,7 @@ struct FIntParam : public FBaseParam
 
 	bool SetValue(int32 NewValue)
 	{
-		if (NewValue < MinValue || NewValue > MaxValue)
-			return false;
-
-		Value = NewValue;
+		Value = FMath::Clamp(NewValue, MinValue, MaxValue);
 		return true;
 	}
 };
@@ -93,21 +90,19 @@ struct FListParam : public FBaseParam
 	}
 };
 
-
 UCLASS( ClassGroup=(UnrealGames), meta=(BlueprintSpawnableComponent) )
 class UNREALGAMES_API UUGSettingsComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FSimpleEvent);
+
 	// Sets default values for this component's properties
 	UUGSettingsComponent();
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	
-	// Called every frame
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 		
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|Settings")
@@ -116,11 +111,17 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|Settings")
 		TArray<FListParam> ListParameters;
 
-	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames", meta = (DisplayName = "Int Parameters"))
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnParamRep, Category = "UnrealGames", meta = (DisplayName = "Int Parameters"))
 		TArray<class UUGSettingsParamWrapperInt*> IntWrappers;
 
-	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames", meta = (DisplayName = "List Parameters"))
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnParamRep, Category = "UnrealGames", meta = (DisplayName = "List Parameters"))
 		TArray<class UUGSettingsParamWrapperList*> ListWrappers;
+
+	UPROPERTY(BlueprintAssignable, Category = "UnrealGames")
+		FSimpleEvent OnParamReplication;
+
+	UFUNCTION()
+		void OnParamRep();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		bool GetIntParam(FName Name, int32& outValue);

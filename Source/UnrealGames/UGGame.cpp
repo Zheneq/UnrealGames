@@ -6,6 +6,7 @@
 #include "UGGS.h"
 #include "UGGM.h"
 #include "UGSettingsComponent.h"
+#include "Net/UnrealNetwork.h"
 
 
 // Sets default values
@@ -14,6 +15,7 @@ AUGGame::AUGGame():
 {
  	// Set this actor not to call Tick() every frame.
 	PrimaryActorTick.bCanEverTick = false;
+	bReplicates = true;
 
 	CurPlayerIndex = 0;
 	Lap = 0;
@@ -26,6 +28,18 @@ AUGGame::AUGGame():
 	MaxPlayers = 2;
 	PlayerStateClass = AUGPS::StaticClass();
 	bTeamsAllowed = false;
+
+}
+
+void AUGGame::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AUGGame, Lap);
+	DOREPLIFETIME_CONDITION(AUGGame, GameName, COND_InitialOnly);
+	DOREPLIFETIME_CONDITION(AUGGame, MaxPlayers, COND_InitialOnly);
+	DOREPLIFETIME(AUGGame, bIsInGame);
+	DOREPLIFETIME(AUGGame, bRoundOver);
 
 }
 

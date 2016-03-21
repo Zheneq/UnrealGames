@@ -197,13 +197,13 @@ public:
 		int32 CurPlayerIndex;
 
 	// Current lap
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
 		int32 Lap;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Replicated, Category = "UnrealGames")
 		FText GameName;
 
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Replicated, Category = "UnrealGames")
 		int32 MaxPlayers;
 
 	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames")
@@ -215,10 +215,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
 		bool bTeamsAllowed;
 
-	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
 		bool bIsInGame;
 
 	// If set, ends the round after current turn
-	UPROPERTY(BlueprintReadWrite, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		bool bRoundOver;
 };

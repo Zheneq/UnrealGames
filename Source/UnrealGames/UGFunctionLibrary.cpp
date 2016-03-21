@@ -4,6 +4,7 @@
 #include "UGFunctionLibrary.h"
 #include "Runtime/UMG/Public/Components/WidgetComponent.h"
 #include "UGGM.h"
+#include "UGGS.h"
 
 float UUGFunctionLibrary::Infinity()
 {
@@ -17,14 +18,10 @@ bool UUGFunctionLibrary::IsPreviewActor(AActor* Actor)
 
 class AUGGame* UUGFunctionLibrary::GetGame(UObject* WorldContextObject)
 {
-	auto World = WorldContextObject->GetWorld();
-	if (World)
+	auto GS = WorldContextObject->GetWorld() ? Cast<AUGGS>(WorldContextObject->GetWorld()->GetGameState()) : nullptr;
+	if (GS)
 	{
-		auto GM = Cast<AUGGM>(World->GetAuthGameMode());
-		if (GM)
-		{
-			return GM->GetGame();
-		}
+		return GS->GetGame();
 	}
 
 	return nullptr;

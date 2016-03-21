@@ -13,9 +13,20 @@ class UNREALGAMES_API AUGGS : public AGameState
 {
 	GENERATED_BODY()
 
+private:
+	UPROPERTY(ReplicatedUsing = OnRep_Game)
+		class AUGGame* Game;
+
 public:
 	UPROPERTY(BlueprintReadOnly)
 		bool bIsInGame;
-	
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "UnrealGames")
+		void OnRep_Game();
+
+	void SetGame(class AUGGame* Game);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		class AUGGame* GetGame();
 	
 };
