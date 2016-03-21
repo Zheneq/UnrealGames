@@ -104,12 +104,21 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-		
-	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|Settings")
+	virtual void Reset();
+	virtual void Init(const TArray<FIntParam>& _IntParameters, const TArray<FListParam>& _ListParameters);
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|GameSettings")
 		TArray<FIntParam> IntParameters;
 
-	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|Settings")
+	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|GameSettings")
 		TArray<FListParam> ListParameters;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|PlayerSettings")
+		TArray<FIntParam> PlayerIntParameters;
+
+	UPROPERTY(EditDefaultsOnly, Category = "UnrealGames|PlayerSettings")
+		TArray<FListParam> PlayerListParameters;
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnParamRep, Category = "UnrealGames", meta = (DisplayName = "Int Parameters"))
 		TArray<class UUGSettingsParamWrapperInt*> IntWrappers;
@@ -120,9 +129,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "UnrealGames")
 		FSimpleEvent OnParamReplication;
 
-	UFUNCTION()
-		void OnParamRep();
-
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		bool GetIntParam(FName Name, int32& outValue);
+
+	UFUNCTION()
+		void OnParamRep();
 };

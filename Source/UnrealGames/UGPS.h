@@ -14,8 +14,13 @@ class UNREALGAMES_API AUGPS : public APlayerState
 	GENERATED_BODY()
 
 public:
+	AUGPS();
+
+	// Construction Script
+	void OnConstruction(const FTransform& Transform) override;
 
 	virtual void BeginPlay() override;
+
 	// BEGIN PlayerState intreface
 	virtual void CopyProperties(APlayerState* PlayerState) override;
 	// END
@@ -43,7 +48,7 @@ public:
 		int32 Team;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
-		class AUGSettings* Settings;
+		class UUGSettingsComponent* Settings;
 
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames")

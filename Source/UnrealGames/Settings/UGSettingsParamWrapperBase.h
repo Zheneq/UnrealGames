@@ -21,11 +21,16 @@ public:
 
 	virtual const FBaseParam* GetBaseStruct();
 
+	bool Validate();
+
 	//bool IsNameStableForNetworking() const override;
 	//bool IsSupportedForNetworking() const override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
 		bool bEditableHere;
+
+	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+		bool bRemotelyEditable;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		FText GetParamDisplayName();

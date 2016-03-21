@@ -11,7 +11,18 @@
 #include "UGPC.h"
 #include "UGFunctionLibrary.h"
 #include "UGGame.h"
+#include "UGSettingsComponent.h"
 
+AUGPS::AUGPS() : APlayerState()
+{
+	bMyTurn = false;
+	bIsInGame = false;
+	PlayerIndex = -1;
+	PlayerColor = FLinearColor(ForceInitToZero);
+	Next = nullptr;
+	Team = 0;
+	Settings = nullptr;
+}
 
 void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 
@@ -28,6 +39,14 @@ void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetime
 	DOREPLIFETIME(AUGPS, Team);
 
 }
+
+void AUGPS::OnConstruction(const FTransform& Transform)
+{
+	Settings = FindComponentByClass<UUGSettingsComponent>();
+
+	Super::OnConstruction(Transform);
+}
+
 
 void AUGPS::BeginPlay()
 {

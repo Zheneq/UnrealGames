@@ -14,6 +14,7 @@ UUGSettingsParamWrapperBase::UUGSettingsParamWrapperBase() : UActorComponent()
 	bReplicates = true;
 
 	bEditableHere = false;
+	bRemotelyEditable = false;
 }
 
 void UUGSettingsParamWrapperBase::BeginPlay()
@@ -31,8 +32,27 @@ void UUGSettingsParamWrapperBase::BeginPlay()
 		{
 			auto PC = Cast<AUGPS>(OwnerRef)->GetOwningPlayerController();
 			bEditableHere = IsValid(PC) && PC->IsLocalPlayerController();
+
+			//UE_LOG(LogTemp, Log, TEXT("UGSettingsParamWrapperBase::BeginPlay: I am %s."), GetWorld()->IsServer() ? TEXT("server") : TEXT("client"));
+			//UE_LOG(LogTemp, Log, TEXT("UGSettingsParamWrapperBase::BeginPlay: My owner is player %s."), *Cast<AUGPS>(OwnerRef)->PlayerName);
+			//UE_LOG(LogTemp, Log, TEXT("UGSettingsParamWrapperBase::BeginPlay: I %shave a PC."), IsValid(PC) ? TEXT("") : TEXT("do not "));
 		}
+		bRemotelyEditable = !bEditableHere;
 	}
+}
+
+bool UUGSettingsParamWrapperBase::Validate()
+{
+	auto w = GetWorld();
+	if (!w) return false;
+
+	if (!bEditableHere)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UUGSettingsParamWrapperBase::Validate: Attempted to edit %s when prohibited."), *GetParamDisplayName().ToString());
+		return false;
+	}
+
+	return true;
 }
 /*
 bool UUGSettingsParamWrapperBase::IsNameStableForNetworking() const
@@ -47,12 +67,12 @@ bool UUGSettingsParamWrapperBase::IsSupportedForNetworking() const
 */
 FText UUGSettingsParamWrapperBase::GetParamDisplayName()
 {
-	return GetBaseStruct()->DisplayName;
+	return GetBaseStruct() ? GetBaseStruct()->DisplayName : FText();
 }
 
 FName UUGSettingsParamWrapperBase::GetParamName()
 {
-	return GetBaseStruct()->Name;
+	return GetBaseStruct() ? GetBaseStruct()->Name : TEXT("");
 }
 
 const FBaseParam* UUGSettingsParamWrapperBase::GetBaseStruct()

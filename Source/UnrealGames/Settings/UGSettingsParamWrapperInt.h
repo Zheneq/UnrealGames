@@ -23,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
 		bool SetValue(int32 NewValue);
+
+	UFUNCTION(Server, Reliable, WithValidation, Category = "UnrealGames")
+		void ServerSetValue(int32 NewValue);
 	
 	
 };

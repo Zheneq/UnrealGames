@@ -27,7 +27,24 @@ void UUGSettingsParamWrapperInt::Init(const FIntParam& ParamStruct)
 
 bool UUGSettingsParamWrapperInt::SetValue(int32 NewValue)
 {
+	if (!Validate()) return false;
+
+	if (!GetWorld()->IsServer())
+	{
+		ServerSetValue(NewValue);
+	}
+
 	return IntParam.SetValue(NewValue);
+}
+
+void UUGSettingsParamWrapperInt::ServerSetValue_Implementation(int32 NewValue)
+{
+	IntParam.SetValue(NewValue);
+}
+
+bool UUGSettingsParamWrapperInt::ServerSetValue_Validate(int32 NewValue)
+{
+	return bRemotelyEditable;
 }
 
 const FBaseParam* UUGSettingsParamWrapperInt::GetBaseStruct()

@@ -21,7 +21,24 @@ void UUGSettingsParamWrapperList::Init(const FListParam& ParamStruct)
 
 bool UUGSettingsParamWrapperList::Select(int32 Index)
 {
+	if (!Validate()) return false;
+
+	if (!GetWorld()->IsServer())
+	{
+		ServerSelect(Index);
+	}
+
 	return ListParam.Select(Index);
+}
+
+void UUGSettingsParamWrapperList::ServerSelect_Implementation(int32 Index)
+{
+	ListParam.Select(Index);
+}
+
+bool UUGSettingsParamWrapperList::ServerSelect_Validate(int32 Index)
+{
+	return bRemotelyEditable;
 }
 
 const FBaseParam* UUGSettingsParamWrapperList::GetBaseStruct()

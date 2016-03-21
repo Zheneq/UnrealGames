@@ -24,4 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
 		bool Select(int32 Index);
 
+	UFUNCTION(Server, Reliable, WithValidation, Category = "UnrealGames")
+		void ServerSelect(int32 Index);
+
 };
