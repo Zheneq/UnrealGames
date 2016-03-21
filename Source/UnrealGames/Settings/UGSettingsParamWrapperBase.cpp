@@ -2,22 +2,38 @@
 
 #include "UnrealGames.h"
 #include "UGSettingsParamWrapperBase.h"
+#include "UGPS.h"
+#include "UGPC.h"
+#include "UGGame.h"
 #include "Net/UnrealNetwork.h"
 
 UUGSettingsParamWrapperBase::UUGSettingsParamWrapperBase() : UActorComponent()
 {
-	bWantsBeginPlay = false;
+	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = false;
 	bReplicates = true;
+
+	bEditableHere = false;
 }
 
-void UUGSettingsParamWrapperBase::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+void UUGSettingsParamWrapperBase::BeginPlay()
 {
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	Super::BeginPlay();
 
-	DOREPLIFETIME_CONDITION(UUGSettingsParamWrapperBase, bEditableOnClient, COND_InitialOrOwner);
+	auto OwnerRef = GetOwner();
+	if (OwnerRef)
+	{
+		if (Cast<AUGGame>(OwnerRef))
+		{
+			bEditableHere = OwnerRef->Role == ROLE_Authority;
+		}
+		else if (Cast<AUGPS>(OwnerRef))
+		{
+			auto PC = Cast<AUGPS>(OwnerRef)->GetOwningPlayerController();
+			bEditableHere = IsValid(PC) && PC->IsLocalPlayerController();
+		}
+	}
 }
-
 /*
 bool UUGSettingsParamWrapperBase::IsNameStableForNetworking() const
 {

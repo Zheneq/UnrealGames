@@ -32,7 +32,6 @@ void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetime
 void AUGPS::BeginPlay()
 {
 	UE_LOG(LogTemp, Log, TEXT("UGPS::BeginPlay: I am %s!"), *GetClass()->GetName());
-
 }
 
 void AUGPS::CopyProperties(APlayerState* NewPS)

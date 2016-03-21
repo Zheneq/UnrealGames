@@ -17,13 +17,15 @@ class UNREALGAMES_API UUGSettingsParamWrapperBase : public UActorComponent
 public:
 	UUGSettingsParamWrapperBase();
 
+	virtual void BeginPlay() override;
+
 	virtual const FBaseParam* GetBaseStruct();
 
 	//bool IsNameStableForNetworking() const override;
 	//bool IsSupportedForNetworking() const override;
 
-	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
-		bool bEditableOnClient;
+	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+		bool bEditableHere;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		FText GetParamDisplayName();

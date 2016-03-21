@@ -38,7 +38,7 @@ void UUGSettingsComponent::BeginPlay()
 			{
 				w->RegisterComponent();
 				w->Init(p);
-				w->bEditableOnClient = false;
+				w->BeginPlay(); // As owner actor has already begun play, the component's BeginPlay won't be called automatically
 				IntWrappers.Add(w);
 			}
 		}
@@ -54,7 +54,7 @@ void UUGSettingsComponent::BeginPlay()
 			{
 				w->RegisterComponent();
 				w->Init(p);
-				w->bEditableOnClient = false;
+				w->BeginPlay(); // As owner actor has already begun play, the component's BeginPlay won't be called automatically
 				ListWrappers.Add(w);
 			}
 		}
