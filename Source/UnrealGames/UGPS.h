@@ -31,21 +31,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		bool bIsInGame;
 
-	// Deprecated
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
-		int32 UGScore;
-
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
-		int32 PlayerIndex;
-
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
-		FLinearColor PlayerColor;
-
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		AUGPS* Next;
-
-	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
-		int32 Team;
 
 	UPROPERTY(BlueprintReadWrite, Replicated, Category = "UnrealGames")
 		class UUGSettingsComponent* Settings;

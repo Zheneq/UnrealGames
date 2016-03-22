@@ -122,7 +122,7 @@ bool UUGSettingsComponent::GetIntParam(FName Name, int32& outValue)
 			return true;
 		}
 	}
-
+	
 	return false;
 }
 

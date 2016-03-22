@@ -27,8 +27,6 @@ AUGGame::AUGGame():
 	GameName = FText::FromString(TEXT("Unknown Game"));
 	MaxPlayers = 2;
 	PlayerStateClass = AUGPS::StaticClass();
-	bTeamsAllowed = false;
-
 }
 
 void AUGGame::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const

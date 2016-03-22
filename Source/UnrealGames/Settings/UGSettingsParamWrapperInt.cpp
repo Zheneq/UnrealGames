@@ -22,7 +22,7 @@ void UUGSettingsParamWrapperInt::Init(const FIntParam& ParamStruct)
 		UE_LOG(LogTemp, Warning, TEXT("UUGSettingsParamWrapperInt::Init: Wrong MinValue/MaxValue for %s (%d/%d)."), *IntParam.DisplayName.ToString(), IntParam.MinValue, IntParam.MaxValue);
 		IntParam.MaxValue = IntParam.MinValue;
 	}
-	SetValue(IntParam.DefaultValue);
+	IntParam.SetValue(IntParam.DefaultValue);
 }
 
 bool UUGSettingsParamWrapperInt::SetValue(int32 NewValue)

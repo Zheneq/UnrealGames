@@ -17,10 +17,7 @@ AUGPS::AUGPS() : APlayerState()
 {
 	bMyTurn = false;
 	bIsInGame = false;
-	PlayerIndex = -1;
-	PlayerColor = FLinearColor(ForceInitToZero);
 	Next = nullptr;
-	Team = 0;
 	Settings = nullptr;
 }
 
@@ -31,12 +28,8 @@ void AUGPS::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetime
 
 	DOREPLIFETIME(AUGPS, bMyTurn);
 	DOREPLIFETIME(AUGPS, bIsInGame);
-	DOREPLIFETIME(AUGPS, UGScore);
-	DOREPLIFETIME(AUGPS, PlayerIndex);
-	DOREPLIFETIME(AUGPS, PlayerColor);
 	DOREPLIFETIME(AUGPS, Next);
 	DOREPLIFETIME(AUGPS, Settings);
-	DOREPLIFETIME(AUGPS, Team);
 
 }
 

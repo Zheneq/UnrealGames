@@ -169,10 +169,10 @@ public:
 		void NewLap();
 
 	/**
-	* @return true if current team settings are appropriate.
+	* @return true if current settings are appropriate.
 	*/
 	UFUNCTION(BlueprintImplementableEvent, BlueprintAuthorityOnly, Category = "UnrealGames")
-		bool CheckTeams();
+		bool CheckSettings();
 
 	/**
 	* Called when new player connected.
@@ -211,9 +211,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
 		class UUGSettingsComponent* Settings;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "UnrealGames")
-		bool bTeamsAllowed;
 
 	UPROPERTY(BlueprintReadOnly, Replicated, Category = "UnrealGames")
 		bool bIsInGame;
