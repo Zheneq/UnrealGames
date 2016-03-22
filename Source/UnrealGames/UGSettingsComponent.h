@@ -15,6 +15,17 @@ struct FBaseParam
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
 		FText DisplayName;
+
+	FBaseParam()
+	{
+
+	}
+
+	FBaseParam(const FName& _Name, const FText& _DisplayName):
+		Name(_Name), DisplayName(_DisplayName)
+	{
+
+	}
 };
 
 USTRUCT(BlueprintType)
@@ -22,7 +33,7 @@ struct FIntParam : public FBaseParam
 {
 	GENERATED_USTRUCT_BODY()
 
-		UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
+	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
 		int32 Value;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "UnrealGames")
@@ -65,6 +76,13 @@ struct FListParam : public FBaseParam
 	FListParam() : FBaseParam()
 	{
 		Selected = 0;
+		bDoNotLoop = false;
+	}
+
+	FListParam(const FName& _Name, const FText& _DisplayName, const TArray<FText>& _List) :
+		FBaseParam(_Name, _DisplayName), Selected(0), bDoNotLoop(false)
+	{
+		List = _List;
 	}
 
 	bool Select(int32 Index)
@@ -134,4 +152,12 @@ public:
 
 	UFUNCTION()
 		void OnParamRep();
+
+	/**
+	* Adds new list parameter.
+	* Callable ONLY inside CONSTRUCTION SCRIPT.
+	* @return true if successfully added.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames")
+		bool AddListParam(FName Name, FText DisplayName, TArray<FText> List, bool bPlayerParam = false);
 };

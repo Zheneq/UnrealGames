@@ -140,3 +140,18 @@ void UUGSettingsComponent::OnParamRep()
 	}
 	OnParamReplication.Broadcast();
 }
+
+bool UUGSettingsComponent::AddListParam(FName Name, FText DisplayName, TArray<FText> List, bool bPlayer)
+{
+	if (HasBegunPlay())
+		return false;
+
+	if (bPlayer)
+	{
+		return PlayerListParameters.Add(FListParam(Name, DisplayName, List)) >= 0;
+	}
+	else
+	{
+		return ListParameters.Add(FListParam(Name, DisplayName, List)) >= 0;
+	}
+}
