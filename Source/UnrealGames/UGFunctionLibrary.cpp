@@ -26,3 +26,8 @@ class AUGGame* UUGFunctionLibrary::GetGame(UObject* WorldContextObject)
 
 	return nullptr;
 }
+
+FVector UUGFunctionLibrary::ProjectPointOnToPlaneParallerToDirection(FVector Point, FVector PlaneBase, FVector PlaneNormal, FVector Direction)
+{
+	return Point - Direction * FVector::PointPlaneDist(Point, PlaneBase, PlaneNormal) / (Direction | PlaneNormal);
+}
