@@ -2,6 +2,7 @@
 
 #include "UnrealGames.h"
 #include "UGCard.h"
+#include "UGCardGroup.h"
 
 #include "Net/UnrealNetwork.h"
 
@@ -26,4 +27,18 @@ void AUGCard::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifeti
 	DOREPLIFETIME(AUGCard, CardName);
 	DOREPLIFETIME(AUGCard, Group);
 
+}
+
+bool AUGCard::Save_Implementation()
+{
+	SavedGroup = Group;
+	return true;
+}
+
+bool AUGCard::Load_Implementation()
+{
+	if (!IsValid(SavedGroup)) return false;
+
+	Group = SavedGroup;
+	return true;
 }

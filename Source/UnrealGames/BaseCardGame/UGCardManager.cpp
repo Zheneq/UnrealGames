@@ -240,3 +240,29 @@ void AUGCardManager::Restart()
 	for (auto c : RegisteredCards) ResetCard(c);
 	UE_LOG(LogTemp, Log, TEXT("Reset all cards to their initial locations."));
 }
+
+bool AUGCardManager::Save()
+{
+	bool result = true;
+	for (auto c : RegisteredCards)
+	{
+		result = result && c->Save();
+	}
+	return result;
+}
+
+bool AUGCardManager::Load()
+{
+	bool result = true;
+	for (auto g : CardGroups)
+	{
+		g->Cards.Empty();
+		g->Info->Update();
+	}
+	for (auto c : RegisteredCards)
+	{
+		result = result && c->Load();
+		ResetCard(c);
+	}
+	return result;
+}

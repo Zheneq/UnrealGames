@@ -37,4 +37,14 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "UnrealGames")
 		AUGCardManager *CardManager;
 	
+
+private:
+	AUGCardGroup *SavedGroup;
+
+public:
+	UFUNCTION(BlueprintNativeEvent, Category = "UnrealGames")
+		bool Save();
+
+	UFUNCTION(BlueprintNativeEvent, Category = "UnrealGames")
+		bool Load();
 };

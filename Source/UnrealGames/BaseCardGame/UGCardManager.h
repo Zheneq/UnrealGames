@@ -76,4 +76,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames|CardGame")
 		void Restart();
+
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames|CardGame")
+		bool Save();
+
+	UFUNCTION(BlueprintCallable, Category = "UnrealGames|CardGame")
+		bool Load();
 };
