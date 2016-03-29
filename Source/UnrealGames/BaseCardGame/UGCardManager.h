@@ -42,7 +42,7 @@ public:
 		AUGCardGroup* GetGroup(AUGPS* Player, FName Group);
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames|CardGame")
-		void CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicityEnum Publicity, AActor* Visualizer = NULL);
+		AUGCardGroup* CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicityEnum Publicity, AActor* Visualizer = NULL);
 
 	UFUNCTION(BlueprintCallable, Category = "UnrealGames|CardGame")
 		void RegisterCard(AUGCard* Card, AUGPS* Player, FName Group);

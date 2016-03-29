@@ -150,6 +150,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		bool GetIntParam(FName Name, int32& outValue);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		bool GetListParam(FName Name, int32& outValue, FText& outText);
+
 	UFUNCTION()
 		void OnParamRep();
 

@@ -126,6 +126,21 @@ bool UUGSettingsComponent::GetIntParam(FName Name, int32& outValue)
 	return false;
 }
 
+bool UUGSettingsComponent::GetListParam(FName Name, int32& outValue, FText& outText)
+{
+	for (const auto& w : ListWrappers)
+	{
+		if (w->ListParam.Name == Name)
+		{
+			outValue = w->ListParam.Selected;
+			outText = FText(w->ListParam.List[outValue]);
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void UUGSettingsComponent::OnParamRep()
 {
 	for (auto& w : IntWrappers)

@@ -83,12 +83,12 @@ AUGCardGroup* AUGCardManager::GetGroup(AUGPS* Player, FName Group)
 	return NULL;
 }
 
-void AUGCardManager::CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicityEnum Publicity, AActor* Visualizer)
+AUGCardGroup* AUGCardManager::CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicityEnum Publicity, AActor* Visualizer)
 {
 	if (GetGroup(Player, Name))
 	{
 		UE_LOG(LogTemp, Log, TEXT("Group %s for player %s already exists."), *Name.ToString(), Player ? *Player->PlayerName : TEXT("the game"));
-		return;
+		return nullptr;
 	}
 
 	AUGCardGroup* NewGroup = GetWorld()->SpawnActorDeferred<AUGCardGroup>(AUGCardGroup::StaticClass(), FTransform(), Player);
@@ -115,6 +115,8 @@ void AUGCardManager::CreateGroup(AUGPS* Player, FName Name, EUGCardGroupPublicit
 	CardGroups.Add(NewGroup);
 
 	UE_LOG(LogTemp, Log, TEXT("Created group: %s for %s."), *Name.ToString(), Player ? *Player->PlayerName : TEXT("the game"));
+
+	return NewGroup;
 }
 
 void AUGCardManager::RegisterCard(AUGCard* Card, AUGPS* Owner, FName Group)
@@ -123,7 +125,7 @@ void AUGCardManager::RegisterCard(AUGCard* Card, AUGPS* Owner, FName Group)
 
 	if (!IsValid(Card) || RegisteredCards.Contains(Card) || !g)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Cannot register %s card."), *Card->CardName.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Cannot register %s card."), Card ? *Card->CardName.ToString() : TEXT("None"));
 		return;
 	}
 

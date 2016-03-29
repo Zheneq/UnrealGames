@@ -5,6 +5,7 @@
 #include "UGPS.h"
 #include "UGGS.h"
 #include "UGGM.h"
+#include "UGGI.h"
 #include "UGSettingsComponent.h"
 #include "Net/UnrealNetwork.h"
 
@@ -44,6 +45,9 @@ void AUGGame::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifeti
 void AUGGame::OnConstruction(const FTransform& Transform)
 {
 	Settings = FindComponentByClass<UUGSettingsComponent>();
+
+	// auto GI = GetWorld() ? Cast<UUGGI>(GetWorld()->GetGameInstance()) : nullptr;
+	// if (GI && !GI->Game) GI->StoreUGGame(this);
 
 	Super::OnConstruction(Transform);
 }
