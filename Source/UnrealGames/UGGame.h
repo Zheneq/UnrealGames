@@ -10,6 +10,8 @@ UCLASS()
 class UNREALGAMES_API AUGGame : public AActor
 {
 	GENERATED_BODY()
+private:
+	bool bGameHasStarted;
 
 public:
 	// Sets default values for this actor's properties

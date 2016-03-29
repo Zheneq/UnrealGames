@@ -22,6 +22,7 @@ AUGGame::AUGGame():
 	Lap = 0;
 	bRoundOver = false;
 	bIsInGame = false;
+	bGameHasStarted = false;
 	//Settings = CreateDefaultSubobject<UUGSettingsComponent>(TEXT("SettingsComp"));
 	Settings = nullptr;
 
@@ -46,8 +47,8 @@ void AUGGame::OnConstruction(const FTransform& Transform)
 {
 	Settings = FindComponentByClass<UUGSettingsComponent>();
 
-	// auto GI = GetWorld() ? Cast<UUGGI>(GetWorld()->GetGameInstance()) : nullptr;
-	// if (GI && !GI->Game) GI->StoreUGGame(this);
+	auto GI = GetWorld() ? Cast<UUGGI>(GetWorld()->GetGameInstance()) : nullptr;
+	if (GI && !GI->Game) GI->StoreUGGame(this);
 
 	Super::OnConstruction(Transform);
 }
@@ -129,6 +130,13 @@ void AUGGame::IncrementPlayerIndex()
 
 void AUGGame::StartGame()
 {
+	if (bGameHasStarted)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: Game has already started!"));
+		return;
+	}
+
+
 	// Checking players array for corrupted data
 	for (int32 i = 0; i < Players.Num(); ++i)
 	{
@@ -146,6 +154,8 @@ void AUGGame::StartGame()
 		UE_LOG(LogTemp, Warning, TEXT("UGGame::StartGame: No players! Aborting."));
 		return;
 	}
+
+	bGameHasStarted = true;
 
 	SortPlayers();
 
