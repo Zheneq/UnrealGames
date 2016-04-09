@@ -31,6 +31,12 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
 		virtual TArray<AActor*> GetBoundActorsByTag(FName Tag);
 
+	/**
+	* Same as GetBoundActorsByTag, but returns the first available (or None)
+	*/
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "UnrealGames")
+		virtual AActor* GetBoundActorByTag(FName Tag);
+
 
 	// BEGIN Unreal Games Game Interface 
 	/**

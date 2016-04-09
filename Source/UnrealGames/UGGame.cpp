@@ -97,6 +97,12 @@ TArray<AActor*> AUGGame::GetBoundActorsByTag(FName Tag)
 	return res;
 }
 
+AActor* AUGGame::GetBoundActorByTag(FName Tag)
+{
+	TArray<AActor*> res = GetBoundActorsByTag(Tag);
+	return res.Num() ? res[0] : nullptr;
+}
+
 AUGPS* AUGGame::GetCurPlayer()
 {
 	return Players[CurPlayerIndex];
