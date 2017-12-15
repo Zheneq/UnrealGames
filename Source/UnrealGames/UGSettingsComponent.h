@@ -5,7 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "UGSettingsComponent.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FBaseParam
 {
 	GENERATED_USTRUCT_BODY()

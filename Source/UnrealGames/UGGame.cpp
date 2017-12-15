@@ -395,7 +395,7 @@ void AUGGame::Log(FText Message)
 {
 	UE_LOG(UGGameLog, Log, TEXT("%s"), *Message.ToString());
 
-	AGameState* GS = GetWorld() ? GetWorld()->GetAuthGameMode() ? GetWorld()->GetAuthGameMode()->GameState : nullptr : nullptr;
+	AGameStateBase* GS = GetWorld() ? GetWorld()->GetAuthGameMode() ? GetWorld()->GetAuthGameMode()->GameState : nullptr : nullptr;
 
 	for (auto p : GS->PlayerArray)
 	{

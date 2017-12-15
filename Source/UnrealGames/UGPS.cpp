@@ -4,8 +4,8 @@
 #include "UGPS.h"
 
 #include "Online.h"
-#include "ThirdParty/Steamworks/Steamv132/sdk/public/steam/steam_api.h"
-#include "Runtime/Online/OnlineSubsystem/Public/OnlineSubsystem.h"
+#include "ThirdParty/Steamworks/Steamv139/sdk/public/steam/steam_api.h"
+#include "OnlineSubsystem.h"
 #include "Net/UnrealNetwork.h"
 
 #include "UGPC.h"
