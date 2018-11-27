@@ -117,7 +117,7 @@ bool AUGGM::HasEverybodyConnected()
 	return !NumTravellingPlayers;
 }
 
-void AUGGM::PreLogin(const FString & Options, const FString & Address, const TSharedPtr< const FUniqueNetId > & UniqueId, FString & ErrorMessage)
+void AUGGM::PreLogin(const FString & Options, const FString & Address, const FUniqueNetIdRepl & UniqueId, FString & ErrorMessage)
 {
 	auto Game = GetGame();
 	// Reject if game is already up and running

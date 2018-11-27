@@ -265,7 +265,7 @@ void AUGGame::LoseRound(AUGPS* Loser)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("UGGame::LoseRound: %s is not in game!"), *Loser->PlayerName);
+		UE_LOG(LogTemp, Warning, TEXT("UGGame::LoseRound: %s is not in game!"), *Loser->GetPlayerName());
 	}
 }
 
@@ -290,11 +290,11 @@ bool AUGGame::KickPlayer(AUGPS* Player)
 		Players.RemoveAt(Index);
 		CurPlayerIndex = Players.Find(CurPlayer);
 
-		UE_LOG(LogTemp, Log, TEXT("UGGame::KickPlayer: Kicked %s."), *Player->PlayerName);
+		UE_LOG(LogTemp, Log, TEXT("UGGame::KickPlayer: Kicked %s."), *Player->GetPlayerName());
 		return CheckEndRound();
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("UGGame::KickPlayer: %s is not even playing!"), *Player->PlayerName);
+	UE_LOG(LogTemp, Warning, TEXT("UGGame::KickPlayer: %s is not even playing!"), *Player->GetPlayerName());
 	return false;
 }
 
