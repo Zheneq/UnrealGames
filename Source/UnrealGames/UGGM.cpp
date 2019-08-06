@@ -119,6 +119,8 @@ bool AUGGM::HasEverybodyConnected()
 
 void AUGGM::PreLogin(const FString & Options, const FString & Address, const FUniqueNetIdRepl & UniqueId, FString & ErrorMessage)
 {
+	Super::PreLogin(Options, Address, UniqueId, ErrorMessage);
+
 	auto Game = GetGame();
 	// Reject if game is already up and running
 	if (IsValid(Game) && Game->bIsInGame)
