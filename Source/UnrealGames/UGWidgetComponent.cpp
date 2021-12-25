@@ -3,12 +3,13 @@
 #include "UnrealGames.h"
 #include "UGWidgetComponent.h"
 
+/*
 void UUGWidgetComponent::SetPivot(FVector2D NewPivot)
 {
 	Pivot = NewPivot;
 	//UpdateWidget();
 }
-
+*/
 
 void UUGWidgetComponent::SetSpace(EWidgetSpace NewSpace)
 {

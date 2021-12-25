@@ -9,7 +9,7 @@
 
 UUGSettingsParamWrapperBase::UUGSettingsParamWrapperBase() : UActorComponent()
 {
-	bWantsBeginPlay = true;
+	// bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = false;
 	bReplicates = true;
 

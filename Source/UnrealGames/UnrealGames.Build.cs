@@ -23,11 +23,11 @@ public class UnrealGames : ModuleRules
 
         if (Target.Platform == UnrealTargetPlatform.Win32)
         {
-            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv139/sdk/redistributable_bin/steam_api.lib");
+            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv147/sdk/redistributable_bin/steam_api.lib");
         }
         if (Target.Platform == UnrealTargetPlatform.Win64)
         {
-            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv139/sdk/redistributable_bin/win64/steam_api64.lib");
+            PublicAdditionalLibraries.Add("ThirdParty/Steamworks/Steamv147/sdk/redistributable_bin/win64/steam_api64.lib");
         }
         
     }

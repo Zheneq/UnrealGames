@@ -4,7 +4,7 @@
 #include "UGPS.h"
 
 #include "Online.h"
-#include "ThirdParty/Steamworks/Steamv139/sdk/public/steam/steam_api.h"
+#include "ThirdParty/Steamworks/Steamv147/sdk/public/steam/steam_api.h"
 #include "OnlineSubsystem.h"
 #include "Net/UnrealNetwork.h"
 
@@ -142,7 +142,7 @@ UTexture2D* AUGPS::GetSteamAvatar(int32 &width, int32 &height)
 			Avatar->PlatformData->Mips[0].BulkData.Unlock();
 
 			//Setting some Parameters for the Texture and finally returning it
-			Avatar->PlatformData->NumSlices = 1;
+			//Avatar->PlatformData->NumSlices = 1;
 			Avatar->NeverStream = true;
 			//Avatar->CompressionSettings = TC_EditorIcon;
 

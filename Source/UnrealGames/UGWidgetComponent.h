@@ -14,8 +14,8 @@ class UNREALGAMES_API UUGWidgetComponent : public UWidgetComponent
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = UserInterface)
-		void SetPivot(FVector2D NewPivot);
+	// UFUNCTION(BlueprintCallable, Category = UserInterface)
+	// 	void SetPivot(FVector2D NewPivot);
 
 	UFUNCTION(BlueprintCallable, Category = UserInterface)
 		void SetSpace(EWidgetSpace NewSpace);
